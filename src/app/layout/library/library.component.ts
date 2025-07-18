@@ -2,11 +2,14 @@ import {Component, effect, inject, OnInit} from '@angular/core';
 import { SongService } from '../../service/song.service';
 import {SongDTO} from '../../model/song.model';
 import {NgOptimizedImage} from '@angular/common';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {SmallSongCardComponent} from '../../shared/small-song-card/small-song-card.component';
 
 @Component({
   selector: 'app-library',
   imports: [
-    NgOptimizedImage
+    FontAwesomeModule,
+    SmallSongCardComponent
   ],
   templateUrl: './library.component.html',
   styleUrl: './library.component.scss'
