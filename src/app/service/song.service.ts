@@ -37,7 +37,7 @@ export class SongService {
     this.getSongs();
     // to simulate loading when fetching data
     const sleep = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
-    await sleep(2000);
+    await sleep(1000);
     this.setLoadingIndicator(false);
   }
 
