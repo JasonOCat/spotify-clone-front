@@ -1,0 +1,14 @@
+@if (fetchSongsIsLoading()) {
+  <span>Loading...</span>
+} @else if (fetchSongsError()?.length) {
+  <span>Error while fetching the songs</span>
+} @else {
+  @for (song of fetchSongs(); track song.publicId) {
+    <img width="55px" height="55px"
+         [src]="'data:' + song.coverContentType + ';base64,'+ song.cover"/>
+    <div>
+      <div>{{ song.title }}</div>
+      <div>{{ song.artist }}</div>
+    </div>
+  }
+}
