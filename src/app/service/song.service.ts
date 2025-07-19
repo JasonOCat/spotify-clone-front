@@ -41,20 +41,22 @@ export class SongService {
   fetchedSongs = computed(() => this.fetchSongsState().value);
   fetchSongsErrorMessage = computed(() => this.fetchSongsState().error);
 
-  private createSongState = signal<createSongState>({
-    isCreating: false,
-    createdSong: undefined,
-    error: undefined,
-    status: "INIT"
-  });
 
-  addSongIsLoading = computed(() => this.createSongState().isCreating);
-  addedSong = computed(() => this.createSongState().createdSong);
-  addSongErrorMessage = computed(() => this.createSongState().error);
+  private addSongStateSignal = signal(State.onInit<CreateSong, HttpErrorResponse>());
+  addSongState = this.addSongStateSignal.asReadonly();
+
+  addSongIsProcessing = computed(() => this.addSongState().isProcessing);
+  addedSong = computed(() => this.addSongState().value);
+  addSongStatus = computed(() => this.addSongState().status);
+  addSongErrorMessage = computed(() => this.addSongState().error);
 
 
   constructor() {
     this.fetchSongs();
+  }
+
+  reset(): void {
+    this.addSongStateSignal.set(State.onInit<CreateSong, HttpErrorResponse>());
   }
 
   async fetchSongs() {
@@ -82,66 +84,22 @@ export class SongService {
 
 
   add(song: CreateSong): void {
-    this.setAddSongLoading(true);
+    this.addSongStateSignal.update(state => State.setProcessing(state, true));
     this.addSong(song);
-    this.setAddSongLoading(false);
+    this.addSongStateSignal.update(state => State.setProcessing(state, false));
   }
 
   addSong(song: CreateSong): void {
     const formData = new FormData();
     formData.append('cover', song.cover!);
-    formData.append('file', song.file!);
+    formData.append('audioFile', song.file!);
     formData.append('title', song.title!);
     formData.append('artist', song.artist!);
 
     this.http.post<CreateSong>(`http://localhost:8080/api/songs`, formData)
       .subscribe({
-        next: createdSong => this.setCreatedSong(createdSong),
-        error: err => this.setCreateSongError(err),
+        next: createdSong => this.addSongStateSignal.update(state => State.onSuccess(state, createdSong)),
+        error: err => this.addSongStateSignal.update(state => State.onSuccess(state, err)),
       });
   }
-
-  private setCreateSongError(err: HttpErrorResponse) {
-    this.createSongState.update(state => {
-      const errorMessage = setErrorMessage(err);
-      return {
-        ...state,
-        createdSong: undefined,
-        error: errorMessage,
-        status: "ERROR"
-      };
-    });
-  }
-
-  private setCreatedSong(createdSong: CreateSong) {
-    this.createSongState.update(state => ({
-      ...state,
-      createdSong,
-      error: undefined,
-      status: "OK"
-    }));
-  }
-
-  private setAddSongLoading(isLoading: boolean) {
-    this.createSongState.update(state => ({
-      ...state,
-      isLoading: isLoading
-    }));
-  }
-
-}
-
-// This should be somewhere reusable
-export function setErrorMessage(err: HttpErrorResponse): string {
-  let errorMessage: string;
-  if (err.error instanceof ErrorEvent) {
-    // A client-side or network error occurred. Handle it accordingly.
-    errorMessage = `An error occurred: ${err.error.message}`;
-  } else {
-    // The backend returned an unsuccessful response code.
-    // The response body may contain clues as to what went wrong,
-    errorMessage = `Backend returned code ${err.status}: ${err.message}`;
-  }
-  console.error(err);
-  return errorMessage;
 }

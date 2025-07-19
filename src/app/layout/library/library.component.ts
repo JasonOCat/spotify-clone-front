@@ -4,12 +4,14 @@ import {SongDTO} from '../../service/model/song.model';
 import {NgOptimizedImage} from '@angular/common';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {SmallSongCardComponent} from '../../shared/small-song-card/small-song-card.component';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-library',
   imports: [
     FontAwesomeModule,
-    SmallSongCardComponent
+    SmallSongCardComponent,
+    RouterLink
   ],
   templateUrl: './library.component.html',
   styleUrl: './library.component.scss'

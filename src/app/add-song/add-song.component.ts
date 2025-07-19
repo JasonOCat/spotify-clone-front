@@ -33,31 +33,28 @@ export class AddSongComponent {
 
   private toastService = inject(ToastService);
 
-  isCreating = signal<boolean>(false);
-
   flowStatus: FlowStatus = 'init';
 
   private destroyRef = inject(DestroyRef);
 
   // Signals
-  addedSong = this.songService;
-  fetchSongsIsLoading = this.songService.fetchSongsIsLoading;
-  fetchSongsErrorMessage = this.songService.fetchSongsErrorMessage;
+  isAddingSong = this.songService.addSongIsProcessing
+  addedSong = this.songService.addedSong
+  addSongStatus = this.songService.addSongStatus
+  addSongErrorMessage = this.songService.addSongErrorMessage;
 
   constructor() {
+    effect(() => {
+      if(this.songService.addSongStatus() === "OK") {
+        this.songService.fetchSongs();
+        this.toastService.show('Song created with success', "SUCCESS");
+        this.router.navigate(['/']);
+      } else if (this.songService.addSongStatus() === "ERROR") {
+        this.toastService.show('Error occurred when creating song, please try again', "DANGER");
+      }
+    });
 
-    // effect(() => {
-    //   this.isCreating.set(false);
-    //   if(this.songService.addSig().status === "OK") {
-    //     this.songService.getAll();
-    //     this.toastService.show('Song created with success', "SUCCESS");
-    //     this.router.navigate(['/']);
-    //   } else if (this.songService.addSig().status === "ERROR") {
-    //     this.toastService.show('Error occurred when creating song, please try again', "DANGER");
-    //   }
-    // });
-    //
-    // this.destroyRef.onDestroy(() => this.songService.reset());
+    this.destroyRef.onDestroy(() => this.songService.reset());
   }
 
   public createForm = this.formBuilder.nonNullable.group<CreateSongFormContent>({
@@ -68,8 +65,6 @@ export class AddSongComponent {
   });
 
   create(): void {
-    this.isCreating.set(true);
-
     if (this.songToCreate.file === null) {
       this.flowStatus = 'validation-file-error';
     }

@@ -17,14 +17,14 @@
         }
       </div>
       <div class="form-floating mb-3 text-secondary">
-        <input type="text" class="form-control" id="author"
+        <input type="text" class="form-control" id="artist"
                [class.is-valid]="createForm.get('artist')?.valid"
                [class.is-invalid]="createForm.get('artist')?.dirty && createForm.get('artist')?.invalid"
-               placeholder="Author" formControlName="author"/>
-        <label for="author">Author</label>
+               placeholder="Artist" formControlName="artist"/>
+        <label for="artist">artist</label>
         @if (createForm.get('artist')?.dirty && createForm.get('artist')?.hasError('required')) {
           <div class="invalid-feedback">
-            Author is required
+            Artist is required
           </div>
         }
       </div>
@@ -45,10 +45,10 @@
         <label for="File">MP3</label>
       </div>
       <div class="d-grid">
-        <button class="btn btn-primary" [disabled]="createForm.invalid || isCreating()" type="submit">
-          @if(!isCreating()) {
+        <button class="btn btn-primary" [disabled]="createForm.invalid || isAddingSong()" type="submit">
+          @if(!isAddingSong()) {
             <div>Add</div>
-          } @else if(isCreating()) {
+          } @else if(isAddingSong()) {
             <div class="d-flex align-items-center justify-content-center">
               <fa-icon icon="circle-notch" class="me-2" animation="spin"></fa-icon>
               <div>Adding in progress...</div>
