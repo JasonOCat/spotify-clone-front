@@ -1,6 +1,6 @@
 import {Component, EventEmitter, input, OnInit, output, Output} from '@angular/core';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import { SongDTO } from '../../service/model/song.model';
+import { ReadSong } from '../../service/model/song.model';
 import {animate, style, transition, trigger} from '@angular/animations';
 
 @Component({
@@ -31,10 +31,10 @@ import {animate, style, transition, trigger} from '@angular/animations';
 })
 export class SongCardComponent implements OnInit{
 
-  song = input.required<SongDTO>();
-  songDisplay: SongDTO = {favorite: false, displayPlay: false};
+  song = input.required<ReadSong>();
+  songDisplay: ReadSong = {favorite: false, displayPlay: false};
 
-  songToPlay = output<SongDTO>();
+  songToPlay = output<ReadSong>();
 
   ngOnInit(): void {
     this.songDisplay = this.song();

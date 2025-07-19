@@ -7,9 +7,9 @@
   </div>
 } @else {
   <div class="d-flex flex-wrap">
-    @for (song of fetchSongs(); track song) {
+    @for (song of fetchedSongs(); track song.publicId) {
       <app-song-card class="card song-card-background mt-0 mb-4 ms-0 me-4"
-                     [song]="song"/>
+                     [song]="song" (songToPlay)="onPlaySong(song)"/>
     }
   </div>
 }

@@ -1,5 +1,5 @@
 import {Component, input, output} from '@angular/core';
-import { SongDTO } from '../../service/model/song.model';
+import { ReadSong } from '../../service/model/song.model';
 ;
 
 @Component({
@@ -10,9 +10,9 @@ import { SongDTO } from '../../service/model/song.model';
 })
 export class SmallSongCardComponent {
 
-  song = input.required<SongDTO>();
+  song = input.required<ReadSong>();
 
-  songToPlay = output<SongDTO>();
+  songToPlay = output<ReadSong>();
 
   play() {
     this.songToPlay.emit(this.song());

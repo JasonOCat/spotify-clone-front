@@ -45,11 +45,11 @@ export class AddSongComponent {
 
   constructor() {
     effect(() => {
-      if(this.songService.addSongStatus() === "OK") {
+      if(this.addSongStatus() === "OK") {
         this.songService.fetchSongs();
         this.toastService.show('Song created with success', "SUCCESS");
         this.router.navigate(['/']);
-      } else if (this.songService.addSongStatus() === "ERROR") {
+      } else if (this.addSongStatus() === "ERROR") {
         this.toastService.show('Error occurred when creating song, please try again', "DANGER");
       }
     });

@@ -1,5 +1,5 @@
 import {computed, inject, Injectable, signal} from '@angular/core';
-import {CreateSong, SongDTO} from './model/song.model';
+import {CreateSong, ReadSong} from './model/song.model';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {State} from './model/state.model';
 
@@ -7,7 +7,7 @@ export type StatusNotification = 'OK' | 'ERROR' | 'INIT';
 
 export interface SongState {
   isLoading: boolean,
-  fetchedSongs: SongDTO[]
+  fetchedSongs: ReadSong[]
   error: string | undefined;
   status: StatusNotification;
 }
@@ -33,7 +33,7 @@ export class SongService {
   //   status: "INIT"
   // });
 
-  private fetchSongsStateSignal = signal(State.onInit<Array<SongDTO>, HttpErrorResponse>());
+  private fetchSongsStateSignal = signal(State.onInit<Array<ReadSong>, HttpErrorResponse>());
   fetchSongsState = this.fetchSongsStateSignal.asReadonly();
 
   // Selectors
@@ -70,7 +70,7 @@ export class SongService {
 
 
   private getSongs() {
-    this.http.get<SongDTO[]>(`http://localhost:8080/api/songs`)
+    this.http.get<ReadSong[]>(`http://localhost:8080/api/songs`)
       .subscribe({
         next: (songs) => {
           this.fetchSongsStateSignal.update(state => State.onSuccess(state, songs));

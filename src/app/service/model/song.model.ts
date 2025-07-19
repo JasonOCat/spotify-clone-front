@@ -11,9 +11,14 @@ export interface CreateSong extends SongBase {
   coverContentType?: string;
 }
 
-export interface SongDTO extends SongBase {
+export interface ReadSong extends SongBase {
   cover?: string;
   coverContentType?: string;
   favorite: boolean;
   displayPlay: boolean;
+}
+
+export interface SongContent extends ReadSong {
+  file?: string;
+  fileContentType?: string;
 }

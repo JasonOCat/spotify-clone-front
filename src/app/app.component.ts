@@ -5,6 +5,7 @@ import {fontAwesomeIcons} from './shared/font-awesome-icons';
 import {FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {NavigationComponent} from './layout/navigation/navigation.component';
 import {HeaderComponent} from './layout/header/header.component';
+import {PlayerComponent} from './layout/player/player.component';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,8 @@ import {HeaderComponent} from './layout/header/header.component';
     RouterOutlet,
     FontAwesomeModule,
     NavigationComponent,
+    HeaderComponent,
+    PlayerComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
