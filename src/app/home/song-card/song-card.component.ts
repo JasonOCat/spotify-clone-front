@@ -1,6 +1,6 @@
 import {Component, EventEmitter, input, OnInit, output, Output} from '@angular/core';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import { SongDTO } from '../../model/song.model';
+import { SongDTO } from '../../service/model/song.model';
 import {animate, style, transition, trigger} from '@angular/animations';
 
 @Component({

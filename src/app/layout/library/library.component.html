@@ -17,7 +17,7 @@
       </div>
     </div>
   } @else {
-    @for (song of fetchSongs(); track song.publicId) {
+    @for (song of fetchedSongs(); track song.publicId) {
       <div class="mt-1 library-song-card p-1">
         <app-small-song-card [song]="song"/>
       </div>

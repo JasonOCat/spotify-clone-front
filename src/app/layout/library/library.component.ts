@@ -1,6 +1,6 @@
-import {Component, effect, inject, OnInit} from '@angular/core';
+import {Component, computed, effect, inject, OnInit} from '@angular/core';
 import { SongService } from '../../service/song.service';
-import {SongDTO} from '../../model/song.model';
+import {SongDTO} from '../../service/model/song.model';
 import {NgOptimizedImage} from '@angular/common';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {SmallSongCardComponent} from '../../shared/small-song-card/small-song-card.component';
@@ -19,9 +19,9 @@ export class LibraryComponent {
   private songService = inject(SongService);
 
   // Signals
-  fetchSongs = this.songService.songs;
-  fetchSongsIsLoading = this.songService.isLoading;
-  fetchSongsError = this.songService.errorMessage;
+  fetchedSongs = computed(() => this.songService.fetchSongsState().value);
+  fetchSongsIsLoading = computed(() => this.songService.fetchSongsState().isProcessing);
+  fetchSongsError = computed(() => this.songService.fetchSongsState().error);
 
   constructor() {
   }

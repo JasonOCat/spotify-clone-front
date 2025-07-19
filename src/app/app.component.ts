@@ -13,7 +13,6 @@ import {HeaderComponent} from './layout/header/header.component';
     RouterOutlet,
     FontAwesomeModule,
     NavigationComponent,
-    HeaderComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

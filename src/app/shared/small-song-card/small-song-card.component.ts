@@ -1,5 +1,5 @@
 import {Component, input, output} from '@angular/core';
-import { SongDTO } from '../../model/song.model';
+import { SongDTO } from '../../service/model/song.model';
 ;
 
 @Component({

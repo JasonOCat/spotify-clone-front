@@ -16,8 +16,8 @@ export class HomeComponent {
   private songService = inject(SongService);
 
   // Signals
-  fetchSongs = this.songService.songs;
-  fetchSongsIsLoading = this.songService.isLoading;
-  fetchSongsError = this.songService.errorMessage;
+  fetchSongs = this.songService.fetchedSongs;
+  fetchSongsIsLoading = this.songService.fetchSongsIsLoading;
+  fetchSongsErrorMessage = this.songService.fetchSongsErrorMessage;
 
 }
