@@ -1,8 +1,9 @@
 import {computed, inject, Injectable, signal} from '@angular/core';
 import {CreateSong, ReadSong} from './model/song.model';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {State} from './model/state.model';
 import {environment} from '../../environments/environment';
+import {catchError, map, Observable, of} from 'rxjs';
 
 export type StatusNotification = 'OK' | 'ERROR' | 'INIT';
 
@@ -102,5 +103,14 @@ export class SongService {
         next: createdSong => this.addSongStateSignal.update(state => State.onSuccess(state, createdSong)),
         error: err => this.addSongStateSignal.update(state => State.onSuccess(state, err)),
       });
+  }
+
+  search(newSearchTerm: string): Observable<State<Array<ReadSong>, HttpErrorResponse>> {
+    const queryParam = new HttpParams().set('term', newSearchTerm);
+    return this.http.get<Array<ReadSong>>(`${environment.API_URL}/api/songs/search`, {params: queryParam})
+      .pipe(
+        map(songs => State.onInitAndSuccess<Array<ReadSong>, HttpErrorResponse>(songs)),
+        catchError(err => of(State.onInitAndError<Array<ReadSong>, HttpErrorResponse>(err)))
+      );
   }
 }
