@@ -39,9 +39,7 @@ export class AddSongComponent {
 
   // Signals
   isAddingSong = this.songService.addSongIsProcessing
-  addedSong = this.songService.addedSong
   addSongStatus = this.songService.addSongStatus
-  addSongErrorMessage = this.songService.addSongErrorMessage;
 
   constructor() {
     effect(() => {

@@ -2,6 +2,7 @@ import {computed, inject, Injectable, signal} from '@angular/core';
 import {CreateSong, ReadSong} from './model/song.model';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {State} from './model/state.model';
+import {environment} from '../../environments/environment';
 
 export type StatusNotification = 'OK' | 'ERROR' | 'INIT';
 
@@ -70,7 +71,7 @@ export class SongService {
 
 
   private getSongs() {
-    this.http.get<ReadSong[]>(`http://localhost:8080/api/songs`)
+    this.http.get<ReadSong[]>(`${environment.API_URL}/api/songs`)
       .subscribe({
         next: (songs) => {
           this.fetchSongsStateSignal.update(state => State.onSuccess(state, songs));
@@ -96,7 +97,7 @@ export class SongService {
     formData.append('title', song.title!);
     formData.append('artist', song.artist!);
 
-    this.http.post<CreateSong>(`http://localhost:8080/api/songs`, formData)
+    this.http.post<CreateSong>(`${environment.API_URL}/api/songs`, formData)
       .subscribe({
         next: createdSong => this.addSongStateSignal.update(state => State.onSuccess(state, createdSong)),
         error: err => this.addSongStateSignal.update(state => State.onSuccess(state, err)),

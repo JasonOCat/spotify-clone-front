@@ -2,6 +2,7 @@ import {computed, inject, Injectable, signal, WritableSignal} from '@angular/cor
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {ReadSong, SongContent} from './model/song.model';
 import {State} from './model/state.model';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,7 @@ export class SongContentService {
 
   fetchNextSong(songToPlay: SongContent) : void {
     const queryParam = new HttpParams().set('publicId', songToPlay.publicId!);
-    this.http.get<SongContent>(`http://localhost:8080/api/songs/get-content`, {params: queryParam})
+    this.http.get<SongContent>(`${environment.API_URL}/api/songs/get-content`, {params: queryParam})
       .subscribe({
         next: songContent => {
           this.mapReadSongToSongContent(songContent, songToPlay);
