@@ -1,0 +1,42 @@
+import {Component, effect, inject, input, OnInit} from '@angular/core';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import { ReadSong } from '../../service/model/song.model';
+import {AuthService} from '../../service/auth.service';
+import {SongService} from '../../service/song.service';
+
+@Component({
+  selector: 'app-favorite-song-btn',
+  standalone: true,
+  imports: [FontAwesomeModule],
+  templateUrl: './favorite-song-btn.component.html',
+  styleUrl: './favorite-song-btn.component.scss'
+})
+export class FavoriteSongBtnComponent implements OnInit{
+
+  song = input.required<ReadSong>();
+
+  authService = inject(AuthService);
+  songService = inject(SongService);
+
+  constructor() {
+    effect(() => {
+      let favoriteSongState = this.songService.addOrRemoveFavoriteSong();
+      console.log(favoriteSongState.value);
+      if(favoriteSongState.status === "OK" && favoriteSongState.value
+        && this.song().publicId === favoriteSongState.value.publicId) {
+        this.song().isFavorite = favoriteSongState.value.isFavorite;
+      }
+    });
+
+
+  }
+
+  ngOnInit(): void {
+    // this.songService.fetchFavorite();
+  }
+
+  onFavorite(song: ReadSong) {
+    this.songService.addOrRemoveAsFavorite(!song.isFavorite, song.publicId!);
+  }
+
+}
