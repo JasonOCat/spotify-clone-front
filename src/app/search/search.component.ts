@@ -1,4 +1,4 @@
-import {Component, effect, inject, signal} from '@angular/core';
+import {Component, effect, inject, Signal, signal, WritableSignal} from '@angular/core';
 import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {SmallSongCardComponent} from "../shared/small-song-card/small-song-card.component";
@@ -9,6 +9,7 @@ import {ReadSong} from "../service/model/song.model";
 import {debounce, debounceTime, distinctUntilChanged, filter, interval, of, switchMap, tap} from "rxjs";
 import {HttpErrorResponse} from "@angular/common/http";
 import {State} from "../service/model/state.model";
+import {FavoriteSongBtnComponent} from '../shared/favorite-song-btn/favorite-song-btn.component';
 
 @Component({
   selector: 'app-search',
@@ -18,6 +19,7 @@ import {State} from "../service/model/state.model";
     FontAwesomeModule,
     SmallSongCardComponent,
     ReactiveFormsModule,
+    FavoriteSongBtnComponent,
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss'

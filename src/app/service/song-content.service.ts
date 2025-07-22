@@ -1,4 +1,4 @@
-import {computed, inject, Injectable, signal, WritableSignal} from '@angular/core';
+import {computed, inject, Injectable, Signal, signal, WritableSignal} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {ReadSong, SongContent} from './model/song.model';
 import {State} from './model/state.model';
@@ -45,6 +45,6 @@ export class SongContentService {
     songContent.coverContentType = songToPlay.coverContentType;
     songContent.title = songToPlay.title;
     songContent.artist = songToPlay.artist;
-    songContent.favorite = songToPlay.favorite;
+    songContent.isFavorite = songToPlay.isFavorite;
   }
 }

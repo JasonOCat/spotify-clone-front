@@ -32,6 +32,7 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
+              "src/assets",
               {
                 "glob": "**/*",
                 "input": "public"
@@ -70,7 +71,7 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "spotify-clone-front:build:production",
+              "buildTarget": "spotify-clone-front:build:production"
             },
             "development": {
               "buildTarget": "spotify-clone-front:build:development",

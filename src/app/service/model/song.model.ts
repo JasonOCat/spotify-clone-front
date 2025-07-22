@@ -14,7 +14,7 @@ export interface CreateSong extends SongBase {
 export interface ReadSong extends SongBase {
   cover?: string;
   coverContentType?: string;
-  favorite: boolean;
+  isFavorite: boolean;
   displayPlay: boolean;
 }
 

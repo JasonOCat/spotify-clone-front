@@ -32,7 +32,7 @@ import {animate, style, transition, trigger} from '@angular/animations';
 export class SongCardComponent implements OnInit{
 
   song = input.required<ReadSong>();
-  songDisplay: ReadSong = {favorite: false, displayPlay: false};
+  songDisplay: ReadSong = {isFavorite: false, displayPlay: false};
 
   songToPlay = output<ReadSong>();
 

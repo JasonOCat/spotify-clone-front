@@ -4,6 +4,7 @@ import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {State} from './model/state.model';
 import {environment} from '../../environments/environment';
 import {catchError, map, Observable, of} from 'rxjs';
+import {ToastService} from './toast.service';
 
 export type StatusNotification = 'OK' | 'ERROR' | 'INIT';
 
@@ -27,6 +28,7 @@ export interface createSongState {
 export class SongService {
 
   http = inject(HttpClient);
+  toastService = inject(ToastService);
 
   // private fetchSongState = signal<SongState>({
   //   isLoading: false,
@@ -48,10 +50,13 @@ export class SongService {
   addSongState = this.addSongStateSignal.asReadonly();
 
   addSongIsProcessing = computed(() => this.addSongState().isProcessing);
-  addedSong = computed(() => this.addSongState().value);
   addSongStatus = computed(() => this.addSongState().status);
-  addSongErrorMessage = computed(() => this.addSongState().error);
 
+  private addOrRemoveFavoriteSongSignal = signal(State.onInit<ReadSong, HttpErrorResponse>());
+  addOrRemoveFavoriteSong = this.addOrRemoveFavoriteSongSignal.asReadonly();
+
+  private fetchFavoriteSongsSignal = signal(State.onInit<Array<ReadSong>, HttpErrorResponse>());
+  fetchFavoriteSongs = this.fetchFavoriteSongsSignal.asReadonly();
 
   constructor() {
     this.fetchSongs();
@@ -112,5 +117,33 @@ export class SongService {
         map(songs => State.onInitAndSuccess<Array<ReadSong>, HttpErrorResponse>(songs)),
         catchError(err => of(State.onInitAndError<Array<ReadSong>, HttpErrorResponse>(err)))
       );
+  }
+
+  addOrRemoveAsFavorite(isFavorite: boolean, publicId: string): void {
+    this.http.post<ReadSong>(`${environment.API_URL}/api/songs/like`, {isFavorite, publicId})
+      .subscribe({
+        next: updatedSong => {
+          this.addOrRemoveFavoriteSongSignal.update(state => State.onSuccess(state, updatedSong));
+          if(updatedSong.isFavorite) {
+            this.toastService.show('Song added to favorite', 'SUCCESS');
+          } else {
+            this.toastService.show('Song removed from favorite', "SUCCESS");
+          }
+        } ,
+        error: err => {
+          this.addOrRemoveFavoriteSongSignal.update(state => State.onError(state, err));
+          this.toastService.show('Error when adding song to favorite', "DANGER");
+        }
+      })
+  }
+
+  fetchFavorite(): void {
+    this.http.get<Array<ReadSong>>(`${environment.API_URL}/api/songs/like`)
+      .subscribe({
+        next: favoritesSongs => this.fetchFavoriteSongsSignal
+          .update(state => State.onSuccess(state, favoritesSongs)),
+        error: err => this.fetchFavoriteSongsSignal
+          .update(state => State.onError(state, err))
+      })
   }
 }

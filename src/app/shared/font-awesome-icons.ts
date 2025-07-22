@@ -1,16 +1,26 @@
-import {IconDefinition} from '@fortawesome/free-brands-svg-icons';
 import {
   faBackwardStep,
   faBook,
   faChevronLeft,
-  faCircleNotch, faCirclePause,
-  faCirclePlay, faCirclePlus, faCircleXmark, faForwardStep,
+  faChevronRight,
+  faCircleNotch,
+  faCirclePause,
+  faCirclePlay,
+  faCirclePlus,
+  faCircleXmark,
+  faForwardStep,
+  faHeart,
   faHome,
   faPlus,
   faSearch,
-  faUser, faVolumeHigh, faVolumeLow, faVolumeMute
+  faUser,
+  faVolumeHigh,
+  faVolumeLow,
+  faVolumeMute
 } from '@fortawesome/free-solid-svg-icons';
-import {faChevronRight} from '@fortawesome/free-solid-svg-icons/faChevronRight';
+
+
+import {faHeart as faHeartRegular, IconDefinition} from "@fortawesome/free-regular-svg-icons";
 
 export const fontAwesomeIcons: IconDefinition[] = [
   faCirclePlay,
@@ -30,4 +40,6 @@ export const fontAwesomeIcons: IconDefinition[] = [
   faVolumeMute,
   faVolumeLow,
   faVolumeHigh,
+  faHeart,
+  faHeartRegular
 ];
