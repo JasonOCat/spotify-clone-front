@@ -8,7 +8,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     tap({
       error: (err: HttpErrorResponse) => {
-        console.log(authService.isAuthenticated())
         if (err.status === 401 && err.url && err.url.includes('api/get-authenticated-user')
           && authService.isAuthenticated()) {
           authService.login();

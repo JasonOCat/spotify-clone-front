@@ -21,7 +21,6 @@ export class FavoriteSongBtnComponent implements OnInit{
   constructor() {
     effect(() => {
       let favoriteSongState = this.songService.addOrRemoveFavoriteSong();
-      console.log(favoriteSongState.value);
       if(favoriteSongState.status === "OK" && favoriteSongState.value
         && this.song().publicId === favoriteSongState.value.publicId) {
         this.song().isFavorite = favoriteSongState.value.isFavorite;
